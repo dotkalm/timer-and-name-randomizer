@@ -5,8 +5,8 @@ import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
   return (
-		<main>
-			THIS IS PARKED
+		<main style={{ fontSize: '20em', textAlign: 'center'}}>
+		😂
 		</main>
   )
 }
