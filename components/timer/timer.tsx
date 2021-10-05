@@ -7,9 +7,12 @@ export default function Timer(){
 	UseInterval(() => setTimer(timerFunc(timer)), 1000)
 	const [ hours, minutes, seconds ] = timer.split(':')
 	return(
-		<section>
+		<section className="timer">
+			<div></div>
 			<div>{hours}</div>
+			<div>:</div>
 			<div>{minutes}</div>
+			<div>:</div>
 			<div>{seconds}</div>
 		</section>
 	)

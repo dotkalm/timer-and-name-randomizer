@@ -14,3 +14,13 @@ a {
 * {
   box-sizing: border-box;
 }
+.timer{
+	background-color: green;
+	display: grid;
+	grid-template-columns: repeat(3, 5vmin 20vmin);
+	gap: 2vmin;
+	line-height: 20vmin;
+	justify-content: center;
+	justify-items: center;
+	align-items: baseline;
+}
