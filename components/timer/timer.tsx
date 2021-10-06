@@ -6,20 +6,25 @@ export default function Timer(){
 	const [ timer, setTimer ] = useState('00:00:00')
 	UseInterval(() => setTimer(timerFunc(timer)), 1000)
 	const [ hours, minutes, seconds ] = timer.split(':')
+	const [ h1, h2 ] = hours.split('')
+	const [ m1, m2 ] = minutes.split('')
+	const [ s1, s2 ] = seconds.split('')
 	return(
 		<section className="timer">
-			<div></div>
-			<div>{hours}</div>
+			<div>{h1}</div>
+			<div>{h2}</div>
 			<div className="colon-container">
 				<div className="colons"></div>
 				<div className="colons"></div>
 			</div>
-			<div>{minutes}</div>
+			<div>{m1}</div>
+			<div>{m2}</div>
 			<div className="colon-container">
 				<div className="colons"></div>
 				<div className="colons"></div>
 			</div>
-			<div>{seconds}</div>
+			<div>{s1}</div>
+			<div>{s2}</div>
 		</section>
 	)
 }

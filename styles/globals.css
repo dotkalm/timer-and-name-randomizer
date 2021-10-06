@@ -1,9 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Rokkitt:wght@100;200;300;400;500;600;700;800;900&display=swap');
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	font-family: 'Rokkitt', serif;
 }
 
 a {
@@ -15,29 +15,29 @@ a {
   box-sizing: border-box;
 }
 .timer{
-	background-color: green;
+	font-weight:700;
+	margin-top: 20vmin;
 	display: grid;
-	grid-template-columns: repeat(3, 5vmin 20vmin);
-	gap: 2vmin;
-	line-height: 20vmin;
+	grid-template-columns: repeat(8, 11vmin);
 	-moz-box-pack: center;
 	justify-content: center;
 	align-items: center;
 	justify-items: center;
 	align-content: center;
 }
+.timer div{
+}
 .colon-container{
 	display:grid;
-	width:2vmin;
-	height:11vmin;
+	height:13vmin;
 	grid-template-rows: repeat(2, 5vmin);
-	gap: 2vmin;
+	gap: 1vmin;
 	justify-content: center;
 	align-items: center;
 }
 .colons{
-	border-radius:1vmin;
+	border-radius:.75vmin;
 	background-color:black;
-	width:2vmin;
-	height:2vmin;
+	width:3vmin;
+	height:3vmin;
 }

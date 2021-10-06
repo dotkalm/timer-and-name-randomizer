@@ -7,7 +7,6 @@ import styles from '../styles/Home.module.css'
 const Home: NextPage = () => {
   return (
 		<main style={{ fontSize: '20vmin', textAlign: 'center'}}>
-		😂
 		<Timer/>
 		</main>
   )
