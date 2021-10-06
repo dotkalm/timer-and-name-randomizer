@@ -20,7 +20,24 @@ a {
 	grid-template-columns: repeat(3, 5vmin 20vmin);
 	gap: 2vmin;
 	line-height: 20vmin;
+	-moz-box-pack: center;
 	justify-content: center;
+	align-items: center;
 	justify-items: center;
-	align-items: baseline;
+	align-content: center;
+}
+.colon-container{
+	display:grid;
+	width:2vmin;
+	height:11vmin;
+	grid-template-rows: repeat(2, 5vmin);
+	gap: 2vmin;
+	justify-content: center;
+	align-items: center;
+}
+.colons{
+	border-radius:1vmin;
+	background-color:black;
+	width:2vmin;
+	height:2vmin;
 }

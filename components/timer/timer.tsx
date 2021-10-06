@@ -10,9 +10,15 @@ export default function Timer(){
 		<section className="timer">
 			<div></div>
 			<div>{hours}</div>
-			<div>:</div>
+			<div className="colon-container">
+				<div className="colons"></div>
+				<div className="colons"></div>
+			</div>
 			<div>{minutes}</div>
-			<div>:</div>
+			<div className="colon-container">
+				<div className="colons"></div>
+				<div className="colons"></div>
+			</div>
 			<div>{seconds}</div>
 		</section>
 	)
