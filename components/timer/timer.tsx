@@ -4,7 +4,11 @@ import UseInterval from './useInterval'
 
 export default function Timer(){
 	const [ timer, setTimer ] = useState('00:00:00')
-	UseInterval(() => setTimer(timerFunc(timer)), 1000)
+	function callbackTimer(): any{
+		setTimer(timerFunc(timer))
+		return undefined
+	}
+	UseInterval(callbackTimer, 1000)
 	const [ hours, minutes, seconds ] = timer.split(':')
 	const [ h1, h2 ] = hours.split('')
 	const [ m1, m2 ] = minutes.split('')

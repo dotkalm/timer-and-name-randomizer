@@ -1,8 +1,8 @@
 export default function timerFunc(time: string): string{
-	let [ hours, minutes, seconds ] = time.split(':')
-	hours = Number(hours)
-	minutes = Number(minutes)
-	seconds = Number(seconds) + 1
+	function splitTime(t: string[]) : number[] {
+		return [ Number(t[0]), Number(t[1]), Number(t[2]) + 1 ]
+	}
+	let [ hours, minutes, seconds ] = splitTime(time.split(':'))
 	if(seconds === 60){
 		seconds = 0
 		minutes += 1
