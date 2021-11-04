@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Rokkitt:wght@100;200;300;400;500;600;700;800;900&display=swap');
 html,
+main{
+	font-size: 20vmin;
+	text-align: center;
+}
 body {
   padding: 0;
   margin: 0;
@@ -15,6 +19,7 @@ a {
   box-sizing: border-box;
 }
 .timer{
+	height: 13vmin;
 	font-weight:700;
 	margin-top: 20vmin;
 	display: grid;
@@ -24,8 +29,7 @@ a {
 	align-items: center;
 	justify-items: center;
 	align-content: center;
-}
-.timer div{
+	transition: all 1s ease-in-out;
 }
 .colon-container{
 	display:grid;
@@ -40,4 +44,65 @@ a {
 	background-color:black;
 	width:3vmin;
 	height:3vmin;
+}
+.paused {
+	height:13vmin;
+	opacity: 0;
+	font-size: 0vmin;
+	transition: all 1s ease-in-out;
+}
+.paused .colons{
+	height:0;
+	width: 0;
+	transition: all 1s ease-in-out;
+}
+header{
+	display: grid;
+	grid-template-columns: repeat(3,9vmin);
+	gap: .2vmin;
+	justify-content: end;
+	margin-top: 5px;
+}
+.header-nav{
+	font-size: 20px;
+	cursor: pointer;
+	display: inline;
+	transition: all .31s ease-in-out;
+	border-bottom: 5px solid transparent;
+}
+.header-nav:hover{
+	transition: all .31s ease-in-out;
+	border-bottom: 5px solid green;
+}
+.log-in-form{
+	width: 100%;
+	display:grid;
+	grid-template-columns: repeat(2,30vmin);
+	justify-content: center;
+}
+.log-in-form > input{
+	width: 20vmin;
+	height: 5vmin; 
+	font-size: 3vmin;
+	border: .4vmin solid green;
+	padding: .2vmin;
+	transition: all 1s ease-in-out;
+}
+.log-in-form > button{
+	border: .4vmin solid green;
+	font-size: 3vmin;
+	height: 5vmin; 
+	padding: .2vmin;
+	transition: all .3s ease-in-out;
+	width: 30vmin;
+}
+.log-in-form > button:hover{
+	border: .4vmin solid blue;
+	cursor:pointer;
+	transition: all .3s ease-in-out;
+}
+.hidden{
+	height:0vmin;
+	width:0vmin;
+	transition: all 1s ease-in-out;
 }
