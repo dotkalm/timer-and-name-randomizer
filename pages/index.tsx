@@ -7,6 +7,7 @@ import Timer from '../components/timer/timer'
 import getCredentials from '../utils/getCredentials'
 import styles from '../styles/Home.module.css'
 import checkLogged from '../utils/checkLogged'
+import { del as deleteToken } from '../utils/localStorage'
 
 export default function Home(): NextPage{
 	const [ formInput, setFormInput ] = useState('')
@@ -36,6 +37,7 @@ export default function Home(): NextPage{
 			setReset(false)
 		}
 	}, [ paused, reset, focused ])
+
 	useEffect(() => {
 		if(loggedIn === false && token !== null){
 			const hasCreds = checkLogged()
@@ -45,30 +47,33 @@ export default function Home(): NextPage{
 			}
 		}
 	}, [ token, loggedIn ])
-	const formHandler = ({target: {value, ...t},...e}) => {
-		setFormInput(value)
+
+	const logOut = () => {
+		setToken('')
+		setLoggedIn(false)
+		deleteToken('credentials')
 	}
 	const blurHandler = () => setFocused(false)
 	const focusHandler = () => setFocused(true)
+	const formHandler = ({target: {value}}) => setFormInput(value)
 
 	const clickHandler = () => {
 		getCredentials(formInput)
 			.then(o => {
-				console.log(o)
+				console.log(o, o instanceof Error)
 				if(o instanceof Error){
 					setLoggedIn(false)
 				}else{
-					setLoggedIn(false)
+					setLoggedIn(true)
 				}
 			})
 	}
 
   return (
 		<main>
-			<Header loggedIn={loggedIn}/>
+			<Header loggedIn={loggedIn} logOut={logOut} />
 			<Timer paused={paused} reset={reset} setReset={setReset}/>
-			{!loggedIn &&
-			<Login
+			{!loggedIn && <Login
 				blurHandler={blurHandler}
 				focusHandler={focusHandler}
 				formHandler={formHandler}

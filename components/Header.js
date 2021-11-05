@@ -1,15 +1,23 @@
-export default function Header({loggedIn}){
-	const ui = ['start', 'randomize', 'login'].map((e, index) => {
-		let label = e
-		if(e === 'login' && loggedIn){
-			label = 'logout'
+export default function Header({ loggedIn, logOut }){
+	const ui = ['start', 'randomize', 'login'].map((label, index) => {
+		if(label === 'login' && loggedIn){
+			return(
+				<div 
+					className="header-nav"
+					id={label} 
+					key={index} 
+					onClick={logOut}
+				>logout</div>
+			)
 		}
+		const style = loggedIn ? {} : {visibility: 'hidden'}
 		return(
 			<div 
 				className="header-nav"
 				id={label} 
 				key={index} 
-				onClick={() => console.log(e)}
+				onClick={() => console.log(label)}
+				style={style}
 			>{label}</div>
 		)
 	})

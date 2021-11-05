@@ -13,7 +13,6 @@ export default function Timer({ paused, reset, setReset }){
 		}
 		return undefined
 	}
-	console.log({paused, reset})
 	useEffect(() => {
 		if(reset){
 			setTimer(startTime)

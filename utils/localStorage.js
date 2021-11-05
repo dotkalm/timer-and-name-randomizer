@@ -1,21 +1,14 @@
 export const set = (key, valueProp) => {
 	let value = valueProp
 	if (!localStorage || typeof window === 'undefined') {
-		console.warn('localStorage not supported')
 		return null
 	}
 
 	if (typeof value === 'undefined') {
-		console.warn('localStorage was passed null/undefined value')
 		return null
 	}
 	if (key === null || typeof key === 'undefined') {
-		console.warn('localStorage was passed null/undefined key')
 		return null
-	}
-
-	if (localStorage && localStorage.getItem(key)) {
-		// console.warn(`tried to set a value, but a ${ key } is already set, overwriting`)
 	}
 	if (typeof value === 'object') {
 		value = JSON.stringify(value)
@@ -26,11 +19,9 @@ export const set = (key, valueProp) => {
 
 export const setAll = (obj) => {
 	if (!localStorage || typeof window === 'undefined') {
-		console.warn('localStorage not supported')
 		return Promise.resolve()
 	}
 	if (!obj || typeof obj !== 'object') {
-		console.warn('localStorage was passed a non-object or null')
 		return Promise.resolve()
 	}
 	return Promise.all(
@@ -40,26 +31,26 @@ export const setAll = (obj) => {
 	)
 }
 
-export const get = (key) => {
-	if (!localStorage || typeof window === 'undefined') {
-		console.warn('localStorage not supported')
-		return null
-	}
-	if (localStorage && !localStorage.getItem(key)) {
-		console.warn(`tried to get a value, but no value is set for ${key}`)
-	}
-	const value = localStorage.getItem(key)
+export const get = key => {
 	try {
-		const newValue = JSON.parse(value)
-		return newValue
-	} catch {
-		return value
+		if (!localStorage || typeof window === 'undefined') {
+			throw new Error('no local storage or window undefined')
+		}
+		if (localStorage && !localStorage.getItem(key)){
+			throw new Error('does not exist')
+		}
+		const value = localStorage.getItem(key)
+		if(typeof value === 'object'){
+			return value
+		}
+		return JSON.parse(value)
+	}catch(e){
+		return e 
 	}
 }
 
 export const del = (key) => {
 	if (!localStorage || typeof window === 'undefined') {
-		console.warn('localStorage not supported')
 		return null
 	}
 	return localStorage.removeItem(key)

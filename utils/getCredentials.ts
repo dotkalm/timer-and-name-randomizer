@@ -15,11 +15,10 @@ export default async function getCredentials(password){
 		}
 		const f = await fetch('/api/login', request)
 		const response = await f.json()
-		if(response.data){
-			await set('credentials', response.data)
-		}else{
+		if(response.errors){
 			throw new Error('no creds')
 		}
+		await set('credentials', response.data)
 		return response.data 
 	}catch(err){
 		return err
