@@ -30,7 +30,17 @@ export const setAll = (obj) => {
 		})
 	)
 }
-
+function catchJSONNotString(value){
+	try{
+		const reviver = (key, value) => {
+			console.log(key, value)
+			return value
+		}
+		return JSON.parse(value, reviver)
+	}catch(error){
+		return value
+	}
+}
 export const get = key => {
 	try {
 		if (!localStorage || typeof window === 'undefined') {
@@ -39,11 +49,7 @@ export const get = key => {
 		if (localStorage && !localStorage.getItem(key)){
 			throw new Error('does not exist')
 		}
-		const value = localStorage.getItem(key)
-		if(typeof value === 'object'){
-			return JSON.parse(value)
-		}
-		return value
+		return catchJSONNotString(localStorage.getItem(key))
 	}catch(e){
 		return e 
 	}

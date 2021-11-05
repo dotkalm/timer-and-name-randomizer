@@ -7,16 +7,17 @@ import Timer from '../components/timer/timer'
 import getCredentials from '../utils/getCredentials'
 import styles from '../styles/Home.module.css'
 import checkLogged from '../utils/checkLogged'
-import { del as deleteToken } from '../utils/localStorage'
+import { del as deleteStorage, get as getStorage } from '../utils/localStorage'
 
 export default function Home(): NextPage{
+	const [ focused, setFocused ] = useState(false)
 	const [ formInput, setFormInput ] = useState('')
 	const [ hidden, setHidden ] = useState(true)
-	const [ paused, setPaused ] = useState(true)
-	const [ stopped, setStopped ] = useState(true)
-	const [ reset, setReset ] = useState(false)
-	const [ focused, setFocused ] = useState(false)
 	const [ loggedIn, setLoggedIn ] = useState(false)
+	const [ names, setNames ] = useState([])
+	const [ paused, setPaused ] = useState(true)
+	const [ reset, setReset ] = useState(false)
+	const [ stopped, setStopped ] = useState(true)
 	const [ token, setToken ] = useState('')
 
 	useEffect(() => {
@@ -51,16 +52,27 @@ export default function Home(): NextPage{
 		}
 	}, [ token, loggedIn, focused ])
 
+	useEffect(() => {
+		if(loggedIn){
+			const namesFromStorage = getStorage('names')
+			
+			if(!(namesFromStorage instanceof Error) && names.length !== namesFromStorage.length){
+				setNames(previous => {
+					console.log(names, namesFromStorage, Array.isArray(namesFromStorage))
+					return namesFromStorage
+				})
+			}
+		}
+	},[ names, loggedIn ])
 	const logOut = () => {
 		setToken('')
 		setLoggedIn(false)
-		deleteToken('credentials')
+		deleteStorage('credentials')
+		deleteStorage('names')
+		setNames([])
 	}
-	const blurHandler = () => setFocused(false)
-	const focusHandler = () => setFocused(true)
 	
-	const formHandler = ({target: {value}}) => setFormInput(value)
-
+	const blurHandler = () => setFocused(false)
 	const clickHandler = () => {
 		getCredentials(formInput)
 			.then(o => {
@@ -72,6 +84,8 @@ export default function Home(): NextPage{
 				}
 			})
 	}
+	const focusHandler = () => setFocused(true)
+	const formHandler = ({target: {value}}) => setFormInput(value)
 
   return (
 		<main>
@@ -101,7 +115,7 @@ export default function Home(): NextPage{
 				clickHandler={clickHandler} 
 				hidden={hidden} 
 			/>}
-			<Randomizer/>
+			<Randomizer names={names}/>
 		</main>
   )
 } 

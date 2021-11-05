@@ -13,15 +13,12 @@ export default async function getNames(token){
 			mode: 'cors',
 			cache: 'default',
 		}
-		console.log(request)
 		const f = await fetch('/api/names', request)
-		console.log(f)
 		const response = await f.json()
 		if(response.errors){
 			throw new Error('wrong token or no data')
 		}
 		await setItem('names', response.data)
-		console.log(response.data)
 		return response.data 
 	}catch(err){
 		console.log(err)
