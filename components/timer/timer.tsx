@@ -4,7 +4,7 @@ import UseInterval from './useInterval'
 
 const startTime = '00:00:00'
 
-export default function Timer({ paused, reset, setReset }){
+export default function Timer({ paused, reset, stopped, setReset }){
 	const [ timer, setTimer ] = useState(startTime)
 
 	function callbackTimer(): undefined{
@@ -26,7 +26,7 @@ export default function Timer({ paused, reset, setReset }){
 	const [ m1, m2 ] = minutes.split('')
 	const [ s1, s2 ] = seconds.split('')
 	return(
-		<section className={!paused ? "timer" : "timer paused"}>
+		<section className={!stopped ? "timer" : "timer paused"}>
 			<div>{h1}</div>
 			<div>{h2}</div>
 			<div className="colon-container">

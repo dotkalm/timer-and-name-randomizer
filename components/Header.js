@@ -3,39 +3,53 @@ export default function Header({
 	focusHandler,
 	logOut,
 	loggedIn, 
+	paused,
+	setPaused,
+	setReset,
+	setStopped,
+	stopped,
 }){
-	const ui = ['start', 'randomize', 'login'].map((label, index) => {
-		if(label === 'login' && loggedIn){
-			return(
-				<div 
-					className="header-nav"
-					id={label} 
-					key={index} 
-					onBlur={blurHandler}
-					onClick={logOut}
-					onFocus={focusHandler}
-					role='button'
-					tabIndex={index+1}
-				>logout</div>
-			)
+	const eventHandlerMap = { 
+		login: () => console.log('login'),
+		logout: logOut,
+		pause: () => setPaused(!paused),
+		run: () => setPaused(!paused),
+		reset: () => setReset(true),
+		'pick name': () => console.log('pickname'),
+		start: () => setStopped(false),
+		stop: () => setStopped(true),
+	}
+	const options = [
+		stopped ? 'start' : 'stop',
+		paused ? 'run' : 'pause', 
+		'reset',
+		'pick name', 
+		loggedIn ? 'logout' : 'login',
+	]
+	const filterPerState = ((e,i) => {
+		if((stopped) && (e === 'pause' || e === 'run' || e === 'reset')){
+			return false
 		}
-		const style = loggedIn ? {} : {visibility: 'hidden'}
+		return true
+	})
+	const ui = options.filter(filterPerState).map((label, index) => {
+		const style = (!loggedIn && label !== 'login') ? {visibility: 'hidden'} : {}
 		return(
-			<div 
+			<button 
 				className="header-nav"
 				id={label} 
 				key={index} 
 				onBlur={blurHandler}
-				onClick={() => console.log(label)}
+				onClick={eventHandlerMap[label]}
 				onFocus={focusHandler}
 				role='button'
 				style={style}
 				tabIndex={index+1}
-			>{label}</div>
+			>{label}</button>
 		)
 	})
 	return(
-		<header >
+		<header className={stopped ? 'stopped' : 'nav-header'}>
 			{ui}	
 		</header>
 	)

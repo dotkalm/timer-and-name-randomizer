@@ -58,18 +58,29 @@ a {
 }
 header{
 	display: grid;
-	grid-template-columns: repeat(3,20%);
+	grid-template-columns: repeat(5,18%);
 	gap: .2vmin;
 	justify-content: end;
 	justify-items: center;
 	margin-top: 5px;
+	transition: all 1s ease-in-out;
+}
+.stopped{
+	grid-template-columns: repeat(3,20%);
+	justify-content: end;
+	justify-items: center;
+	transition: all 1s ease-in-out;
 }
 .header-nav{
-	font-size: 20px;
+	font-size: 15px;
 	cursor: pointer;
 	display: inline;
 	transition: all .31s ease-in-out;
-	border-bottom: 5px solid transparent;
+	border: 5px solid transparent;
+}
+.header-nav:focus{
+	transition: all .31s ease-in-out;
+	outline: 1px solid green;
 }
 .header-nav:hover{
 	transition: all .31s ease-in-out;

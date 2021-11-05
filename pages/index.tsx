@@ -13,6 +13,7 @@ export default function Home(): NextPage{
 	const [ formInput, setFormInput ] = useState('')
 	const [ hidden, setHidden ] = useState(true)
 	const [ paused, setPaused ] = useState(true)
+	const [ stopped, setStopped ] = useState(true)
 	const [ reset, setReset ] = useState(false)
 	const [ focused, setFocused ] = useState(false)
 	const [ loggedIn, setLoggedIn ] = useState(false)
@@ -25,6 +26,7 @@ export default function Home(): NextPage{
 			}else if(key === 'Backspace'){
 				setReset(true)
 			}else{
+				console.log('new name')
 			}
 		}
 		if(!focused){
@@ -39,7 +41,6 @@ export default function Home(): NextPage{
 	}, [ paused, reset, focused ])
 
 	useEffect(() => {
-		console.log(token, loggedIn)
 		if(!loggedIn && !token){
 			const hasCreds = checkLogged()
 			console.log(hasCreds)
@@ -47,9 +48,6 @@ export default function Home(): NextPage{
 			if(hasCreds){
 				setLoggedIn(true)
 			}
-		}
-		if(loggedIn && focused){
-			setFocused(false)
 		}
 	}, [ token, loggedIn, focused ])
 
@@ -60,6 +58,7 @@ export default function Home(): NextPage{
 	}
 	const blurHandler = () => setFocused(false)
 	const focusHandler = () => setFocused(true)
+	
 	const formHandler = ({target: {value}}) => setFormInput(value)
 
 	const clickHandler = () => {
@@ -81,8 +80,18 @@ export default function Home(): NextPage{
 				focusHandler={focusHandler}
 				logOut={logOut} 
 				loggedIn={loggedIn} 
+				paused={paused}
+				setPaused={setPaused}
+				setReset={setReset}
+				setStopped={setStopped}
+				stopped={stopped}
 			/>
-			<Timer paused={paused} reset={reset} setReset={setReset}/>
+			<Timer 
+				paused={paused} 
+				reset={reset} 
+				setReset={setReset}
+				stopped={stopped}
+			/>
 			{!loggedIn && <Login
 				blurHandler={blurHandler}
 				focusHandler={focusHandler}
