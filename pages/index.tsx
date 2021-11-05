@@ -1,12 +1,13 @@
 import type { NextPage } from 'next'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Header from '../components/Header'
 import Login from '../components/Login'
-import Randomizer from '../components/randomized'
 import Timer from '../components/timer/timer'
-import getCredentials from '../utils/getCredentials'
-import styles from '../styles/Home.module.css'
 import checkLogged from '../utils/checkLogged'
+import getCredentials from '../utils/getCredentials'
+import getNames from '../utils/getNames'
+import randomize from '../utils/randomizeNames'
+import styles from '../styles/Home.module.css'
 import { del as deleteStorage, get as getStorage } from '../utils/localStorage'
 
 export default function Home(): NextPage{
@@ -19,6 +20,8 @@ export default function Home(): NextPage{
 	const [ reset, setReset ] = useState(false)
 	const [ stopped, setStopped ] = useState(true)
 	const [ token, setToken ] = useState('')
+	const [ name, setName ] = useState(null)
+	const nameGenerator = useRef(null)
 
 	useEffect(() => {
 		const keyPressHandler = ({key, code}): void => {
@@ -44,7 +47,6 @@ export default function Home(): NextPage{
 	useEffect(() => {
 		if(!loggedIn && !token){
 			const hasCreds = checkLogged()
-			console.log(hasCreds)
 			setToken(hasCreds)
 			if(hasCreds){
 				setLoggedIn(true)
@@ -55,12 +57,11 @@ export default function Home(): NextPage{
 	useEffect(() => {
 		if(loggedIn){
 			const namesFromStorage = getStorage('names')
-			
-			if(!(namesFromStorage instanceof Error) && names.length !== namesFromStorage.length){
-				setNames(previous => {
-					console.log(names, namesFromStorage, Array.isArray(namesFromStorage))
-					return namesFromStorage
-				})
+			if(
+				!(namesFromStorage instanceof Error) && 
+				names.length !== namesFromStorage.length
+			){
+				nameGenerator.current = randomize(namesFromStorage)
 			}
 		}
 	},[ names, loggedIn ])
@@ -69,28 +70,56 @@ export default function Home(): NextPage{
 		setLoggedIn(false)
 		deleteStorage('credentials')
 		deleteStorage('names')
+		nameGenerator.current = null
 		setNames([])
+		setName(null)
 	}
 	
 	const blurHandler = () => setFocused(false)
-	const clickHandler = () => {
-		getCredentials(formInput)
-			.then(o => {
-				console.log(o, o instanceof Error)
-				if(o instanceof Error){
-					setLoggedIn(false)
-				}else{
-					setLoggedIn(true)
-				}
-			})
+	const loginHandler = async () => {
+		const token = await getCredentials(formInput)
+		if(!(token instanceof Error)){
+			setLoggedIn(true)
+			const fetchedNames = await getNames(token)
+			nameGenerator.current = randomize(fetchedNames)
+		}
 	}
 	const focusHandler = () => setFocused(true)
 	const formHandler = ({target: {value}}) => setFormInput(value)
+	const clearNameHandler = () => setName(null)
+	const newNameHandler = () => {
+		const [ first, ...rest ] = names
+		const namesFromStorage = getStorage('names')
+		if(!first){
+			let newName = nameGenerator.current.next()?.value
+			while(newName === undefined){
+				newName = nameGenerator.current.next()?.value
+			}
+			setName(newName)
+			setNames([[ newName ]])
+		}else if(first.length === namesFromStorage.length){
+			let newName = nameGenerator.current.next()?.value
+			while(newName === undefined){
+				newName = nameGenerator.current.next()?.value
+			}
+			setName(newName)
+			setNames([[ newName ], first, ...rest])
+		}else{
+			let newName = nameGenerator.current.next()?.value
+			while(first.includes(newName)){
+				newName = nameGenerator.current.next()?.value
+			}
+			setName(newName)
+			setNames([[ newName, ...first ], ...rest])
+		}
 
+	}
   return (
 		<main>
 			<Header 
 				blurHandler={blurHandler}
+				newNameHandler={newNameHandler}
+				clearNameHandler={clearNameHandler}
 				focusHandler={focusHandler}
 				logOut={logOut} 
 				loggedIn={loggedIn} 
@@ -112,10 +141,10 @@ export default function Home(): NextPage{
 				focusHandler={focusHandler}
 				formHandler={formHandler}
 				formInput={formInput} 
-				clickHandler={clickHandler} 
+				loginHandler={loginHandler} 
 				hidden={hidden} 
 			/>}
-			<Randomizer names={names}/>
+			<div>{name && name}</div>
 		</main>
   )
 } 

@@ -1,6 +1,5 @@
 export default function names(req, res){
 	const names = process.env.names
-	console.log(req.headers)
 	const token = req?.headers?.authorization
 	if(token === process.env.token){
 		res.send(JSON.stringify({data:names,status:200}))

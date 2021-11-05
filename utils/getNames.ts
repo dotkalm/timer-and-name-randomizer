@@ -18,8 +18,9 @@ export default async function getNames(token){
 		if(response.errors){
 			throw new Error('wrong token or no data')
 		}
-		await setItem('names', response.data)
-		return response.data 
+		const names = response.data.split(', ')
+		await setItem('names', names) 
+		return names 
 	}catch(err){
 		console.log(err)
 		return err

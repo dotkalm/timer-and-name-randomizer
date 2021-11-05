@@ -58,7 +58,7 @@ a {
 }
 header{
 	display: grid;
-	grid-template-columns: repeat(5,18%);
+	grid-template-columns: repeat(6,14%);
 	gap: .2vmin;
 	justify-content: end;
 	justify-items: stretch;
@@ -66,7 +66,7 @@ header{
 	transition: all 1s ease-in-out;
 }
 .stopped{
-	grid-template-columns: repeat(3,20%);
+	grid-template-columns: repeat(4,20%);
 	justify-content: end;
 	justify-items: stretch;
 	transition: all 1s ease-in-out;

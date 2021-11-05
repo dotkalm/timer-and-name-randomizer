@@ -32,11 +32,7 @@ export const setAll = (obj) => {
 }
 function catchJSONNotString(value){
 	try{
-		const reviver = (key, value) => {
-			console.log(key, value)
-			return value
-		}
-		return JSON.parse(value, reviver)
+		return JSON.parse(value)
 	}catch(error){
 		return value
 	}

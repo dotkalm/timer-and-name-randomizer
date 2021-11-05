@@ -11,6 +11,8 @@ export default function Header({
 	setStopped,
 	stopped,
 	token,
+	clearNameHandler,
+	newNameHandler,
 }){
 	const eventHandlerMap = { 
 		login: () => console.log('login'),
@@ -18,7 +20,8 @@ export default function Header({
 		pause: () => setPaused(!paused),
 		run: () => setPaused(!paused),
 		reset: () => setReset(true),
-		'pick name': () => getNames(token),
+		'pick name': () => newNameHandler(),
+		'clear name': () => clearNameHandler(),
 		'open timer': () => setStopped(false),
 		'close timer': () => setStopped(true),
 	}
@@ -27,6 +30,7 @@ export default function Header({
 		paused ? 'run' : 'pause', 
 		'reset',
 		'pick name', 
+		'clear name',
 		loggedIn ? 'logout' : 'login',
 	]
 	const filterPerState = ((e,i) => {
