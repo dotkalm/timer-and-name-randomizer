@@ -1,3 +1,5 @@
+import getNames from '../utils/getNames'
+
 export default function Header({ 
 	blurHandler,
 	focusHandler,
@@ -8,6 +10,7 @@ export default function Header({
 	setReset,
 	setStopped,
 	stopped,
+	token,
 }){
 	const eventHandlerMap = { 
 		login: () => console.log('login'),
@@ -15,7 +18,7 @@ export default function Header({
 		pause: () => setPaused(!paused),
 		run: () => setPaused(!paused),
 		reset: () => setReset(true),
-		'pick name': () => console.log('pickname'),
+		'pick name': () => getNames(token),
 		'open timer': () => setStopped(false),
 		'close timer': () => setStopped(true),
 	}

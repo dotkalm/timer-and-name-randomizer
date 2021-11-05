@@ -1,7 +1,9 @@
 export default async function login(req, res){
 	const password = req.body?.password
 	if(password === process.env.password){
-		res.send(JSON.stringify({data:process.env.token,status:200}))
+		const response = {data:process.env.token,status:200}
+		console.log(response)
+		res.send(JSON.stringify(response))
 	}else{
 		res.send({errors: 'wrong password', status: 500})
 	}

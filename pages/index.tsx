@@ -85,6 +85,7 @@ export default function Home(): NextPage{
 				setReset={setReset}
 				setStopped={setStopped}
 				stopped={stopped}
+				token={token}
 			/>
 			<Timer 
 				paused={paused} 
