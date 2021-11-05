@@ -14,6 +14,8 @@ export default function Home(): NextPage{
 	const [ paused, setPaused ] = useState(true)
 	const [ reset, setReset ] = useState(false)
 	const [ focused, setFocused ] = useState(false)
+	const [ loggedIn, setLoggedIn ] = useState(false)
+	const [ token, setToken ] = useState('')
 
 	useEffect(() => {
 		const keyPressHandler = ({key, code}): void => {
@@ -35,8 +37,14 @@ export default function Home(): NextPage{
 		}
 	}, [ paused, reset, focused ])
 	useEffect(() => {
-		checkLogged()
-	}, [])
+		if(loggedIn === false && token !== null){
+			const hasCreds = checkLogged()
+			setToken(hasCreds)
+			if(hasCreds){
+				setLoggedIn(true)
+			}
+		}
+	}, [ token, loggedIn ])
 	const formHandler = ({target: {value, ...t},...e}) => {
 		setFormInput(value)
 	}
@@ -47,13 +55,19 @@ export default function Home(): NextPage{
 		getCredentials(formInput)
 			.then(o => {
 				console.log(o)
+				if(o instanceof Error){
+					setLoggedIn(false)
+				}else{
+					setLoggedIn(false)
+				}
 			})
 	}
 
   return (
 		<main>
-			<Header/>
+			<Header loggedIn={loggedIn}/>
 			<Timer paused={paused} reset={reset} setReset={setReset}/>
+			{!loggedIn &&
 			<Login
 				blurHandler={blurHandler}
 				focusHandler={focusHandler}
@@ -61,9 +75,8 @@ export default function Home(): NextPage{
 				formInput={formInput} 
 				clickHandler={clickHandler} 
 				hidden={hidden} 
-			/>
-			<Randomizer
-			/>
+			/>}
+			<Randomizer/>
 		</main>
   )
 } 

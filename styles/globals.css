@@ -58,9 +58,10 @@ a {
 }
 header{
 	display: grid;
-	grid-template-columns: repeat(3,9vmin);
+	grid-template-columns: repeat(3,20%);
 	gap: .2vmin;
 	justify-content: end;
+	justify-items: center;
 	margin-top: 5px;
 }
 .header-nav{

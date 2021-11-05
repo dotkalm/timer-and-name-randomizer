@@ -20,7 +20,7 @@ export default async function getCredentials(password){
 		}else{
 			throw new Error('no creds')
 		}
-		return 'ok' 
+		return response.data 
 	}catch(err){
 		return err
 	}
