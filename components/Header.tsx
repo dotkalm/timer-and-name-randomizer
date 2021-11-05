@@ -1,34 +1,47 @@
 import getNames from '../utils/getNames'
+type BooleanHook = (x: boolean) => void
+type VoidFunction = () => {}
 type HeaderProps = { 
-	blurHandler: () => void,
-	focusHandler: () => void,
-	logOut: () => void,
+	blurHandler: VoidFunction,
+	clearNameHandler: VoidFunction,
+	focusHandler: VoidFunction,
+	logOut: VoidFunction,
 	loggedIn: boolean, 
+	newNameHandler: VoidFunction,
 	paused: boolean,
-	setPaused: (x: boolean) => void,
-	setReset: () => void,
-	setStopped: () => void,
+	setPaused: BooleanHook,
+	setReset: BooleanHook,
+	setStopped: BooleanHook,
 	stopped: boolean,
 	token: string,
-	clearNameHandler: () => void,
-	newNameHandler: () => void,
 }
 export default function Header({ 
 	blurHandler,
+	clearNameHandler,
 	focusHandler,
 	logOut,
 	loggedIn, 
+	newNameHandler,
 	paused,
 	setPaused,
 	setReset,
 	setStopped,
 	stopped,
 	token,
-	clearNameHandler,
-	newNameHandler,
 } : HeaderProps){
-	const eventHandlerMap = { 
-		login: () => console.log('login'),
+	type EventHandlerMap = {
+		login: undefined,
+		logout: VoidFunction,
+		pause: BooleanHook,
+		run: BooleanHook,
+		reset: BooleanHook, 
+		'pick name': VoidFunction,
+		'clear name': VoidFunction,
+		'open timer': BooleanHook,
+		'close timer': BooleanHook,
+	} 
+	const eventHandlerMap: EventHandlerMap = { 
+		login: undefined,
 		logout: logOut,
 		pause: () => setPaused(!paused),
 		run: () => setPaused(!paused),
@@ -46,27 +59,31 @@ export default function Header({
 		'clear name',
 		loggedIn ? 'logout' : 'login',
 	]
-	const filterPerState = ((e,i) => {
+	const filterPerState = ((e: string,i: number) => {
 		if((stopped) && (e === 'pause' || e === 'run' || e === 'reset')){
 			return false
 		}
 		return true
 	})
-	const ui = options.filter(filterPerState).map((label, index) => {
+	const ui = options.filter(filterPerState).map((label: string, index) => {
 		const style = (!loggedIn && label !== 'login') ? {visibility: 'hidden'} : {}
-		return(
-			<button 
-				className="header-nav"
-				id={label} 
-				key={index} 
-				onBlur={blurHandler}
-				onClick={eventHandlerMap[label]}
-				onFocus={focusHandler}
-				role='button'
-				style={style}
-				tabIndex={index+1}
-			>{label}</button>
-		)
+		if(Object.keys(eventHandlerMap).includes(label)){
+			return(
+				<button 
+					className="header-nav"
+					id={label} 
+					key={index} 
+					onBlur={blurHandler}
+					onClick={eventHandlerMap[label]}
+					onFocus={focusHandler}
+					role='button'
+					style={style}
+					tabIndex={index+1}
+				>{label}</button>
+			)
+		}else{
+			return(<div key={index}></div>)
+		}
 	})
 	return(
 		<header className={stopped ? 'stopped' : 'nav-header'}>
