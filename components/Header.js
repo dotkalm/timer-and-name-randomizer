@@ -16,11 +16,11 @@ export default function Header({
 		run: () => setPaused(!paused),
 		reset: () => setReset(true),
 		'pick name': () => console.log('pickname'),
-		start: () => setStopped(false),
-		stop: () => setStopped(true),
+		'open timer': () => setStopped(false),
+		'close timer': () => setStopped(true),
 	}
 	const options = [
-		stopped ? 'start' : 'stop',
+		stopped ? 'open timer' : 'close timer',
 		paused ? 'run' : 'pause', 
 		'reset',
 		'pick name', 

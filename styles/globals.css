@@ -61,14 +61,14 @@ header{
 	grid-template-columns: repeat(5,18%);
 	gap: .2vmin;
 	justify-content: end;
-	justify-items: center;
+	justify-items: stretch;
 	margin-top: 5px;
 	transition: all 1s ease-in-out;
 }
 .stopped{
 	grid-template-columns: repeat(3,20%);
 	justify-content: end;
-	justify-items: center;
+	justify-items: stretch;
 	transition: all 1s ease-in-out;
 }
 .header-nav{
@@ -84,7 +84,7 @@ header{
 }
 .header-nav:hover{
 	transition: all .31s ease-in-out;
-	border-bottom: 5px solid green;
+	outline: 1px solid green;
 }
 .log-in-form{
 	width: 100%;
