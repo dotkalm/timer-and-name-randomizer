@@ -1,4 +1,9 @@
-export default function Header({ loggedIn, logOut }){
+export default function Header({ 
+	blurHandler,
+	focusHandler,
+	logOut,
+	loggedIn, 
+}){
 	const ui = ['start', 'randomize', 'login'].map((label, index) => {
 		if(label === 'login' && loggedIn){
 			return(
@@ -6,7 +11,11 @@ export default function Header({ loggedIn, logOut }){
 					className="header-nav"
 					id={label} 
 					key={index} 
+					onBlur={blurHandler}
 					onClick={logOut}
+					onFocus={focusHandler}
+					role='button'
+					tabIndex={index+1}
 				>logout</div>
 			)
 		}
@@ -16,8 +25,12 @@ export default function Header({ loggedIn, logOut }){
 				className="header-nav"
 				id={label} 
 				key={index} 
+				onBlur={blurHandler}
 				onClick={() => console.log(label)}
+				onFocus={focusHandler}
+				role='button'
 				style={style}
+				tabIndex={index+1}
 			>{label}</div>
 		)
 	})

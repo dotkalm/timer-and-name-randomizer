@@ -39,14 +39,19 @@ export default function Home(): NextPage{
 	}, [ paused, reset, focused ])
 
 	useEffect(() => {
-		if(loggedIn === false && token !== null){
+		console.log(token, loggedIn)
+		if(!loggedIn && !token){
 			const hasCreds = checkLogged()
+			console.log(hasCreds)
 			setToken(hasCreds)
 			if(hasCreds){
 				setLoggedIn(true)
 			}
 		}
-	}, [ token, loggedIn ])
+		if(loggedIn && focused){
+			setFocused(false)
+		}
+	}, [ token, loggedIn, focused ])
 
 	const logOut = () => {
 		setToken('')
@@ -71,7 +76,12 @@ export default function Home(): NextPage{
 
   return (
 		<main>
-			<Header loggedIn={loggedIn} logOut={logOut} />
+			<Header 
+				blurHandler={blurHandler}
+				focusHandler={focusHandler}
+				logOut={logOut} 
+				loggedIn={loggedIn} 
+			/>
 			<Timer paused={paused} reset={reset} setReset={setReset}/>
 			{!loggedIn && <Login
 				blurHandler={blurHandler}

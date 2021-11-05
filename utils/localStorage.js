@@ -41,9 +41,9 @@ export const get = key => {
 		}
 		const value = localStorage.getItem(key)
 		if(typeof value === 'object'){
-			return value
+			return JSON.parse(value)
 		}
-		return JSON.parse(value)
+		return value
 	}catch(e){
 		return e 
 	}
