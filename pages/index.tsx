@@ -15,16 +15,16 @@ export default function Home(): NextPage{
 	const [ formInput, setFormInput ] = useState('')
 	const [ hidden, setHidden ] = useState(true)
 	const [ loggedIn, setLoggedIn ] = useState(false)
-	const [ names, setNames ] = useState([])
+	const [ names, setNames ] = useState<string[][]>([[]])
 	const [ paused, setPaused ] = useState(true)
 	const [ reset, setReset ] = useState(false)
 	const [ stopped, setStopped ] = useState(true)
 	const [ token, setToken ] = useState('')
-	const [ name, setName ] = useState(null)
-	const nameGenerator = useRef(null)
+	const [ name, setName ] = useState('')
+	const nameGenerator = useRef(randomize([]))
 
 	useEffect(() => {
-		const keyPressHandler = ({key, code}): void => {
+		const keyPressHandler = ({key}: {key: string}): void => {
 			if(key === ' '){
 				setPaused(!paused)
 			}else if(key === 'Backspace'){
@@ -70,9 +70,9 @@ export default function Home(): NextPage{
 		setLoggedIn(false)
 		deleteStorage('credentials')
 		deleteStorage('names')
-		nameGenerator.current = null
+		nameGenerator.current = randomize([])
 		setNames([])
-		setName(null)
+		setName('')
 	}
 	
 	const blurHandler = () => setFocused(false)
@@ -85,20 +85,13 @@ export default function Home(): NextPage{
 		}
 	}
 	const focusHandler = () => setFocused(true)
-	const formHandler = ({target: {value}}) => setFormInput(value)
-	const clearNameHandler = () => setName(null)
+	const formHandler = ({target: {value}} : any) => setFormInput(value)
+	const clearNameHandler = () => setName('')
 	const newNameHandler = () => {
 		const [ first, ...rest ] = names
 		const namesFromStorage = getStorage('names')
-		if(!first){
-			let newName = nameGenerator.current.next()?.value
-			while(newName === undefined){
-				newName = nameGenerator.current.next()?.value
-			}
-			setName(newName)
-			setNames([[ newName ]])
-		}else if(first.length === namesFromStorage.length){
-			let newName = nameGenerator.current.next()?.value
+		if(first.length === namesFromStorage.length){
+			let newName: string = nameGenerator.current.next()?.value
 			while(newName === undefined){
 				newName = nameGenerator.current.next()?.value
 			}
@@ -114,6 +107,7 @@ export default function Home(): NextPage{
 		}
 
 	}
+	const handleReset = (): void => setReset(!reset)
   return (
 		<main>
 			<Header 
@@ -133,7 +127,7 @@ export default function Home(): NextPage{
 			<Timer 
 				paused={paused} 
 				reset={reset} 
-				setReset={setReset}
+				handleReset={handleReset}
 				stopped={stopped}
 			/>
 			{!loggedIn && <Login

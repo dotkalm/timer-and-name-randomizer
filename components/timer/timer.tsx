@@ -3,20 +3,20 @@ import timerFunc from '../../shared/utils/timerFunc'
 import UseInterval from './useInterval'
 
 const startTime = '00:00:00'
-
-export default function Timer({ paused, reset, stopped, setReset }){
+type TimerProps = { paused: boolean, reset: boolean, stopped: boolean, handleReset: () => void}
+export default function Timer({ paused, reset, stopped, handleReset }: TimerProps){
 	const [ timer, setTimer ] = useState(startTime)
 
-	function callbackTimer(): undefined{
+	function callbackTimer(): {}{
 		if(!paused){
 			setTimer(timerFunc(timer))
 		}
-		return undefined
+		return {}
 	}
 	useEffect(() => {
 		if(reset){
 			setTimer(startTime)
-			setReset(false)
+			handleReset()
 		}
 	}, [ reset ])
 	UseInterval(callbackTimer, 1000)
