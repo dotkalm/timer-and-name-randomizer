@@ -75,7 +75,7 @@ export default function Home(): NextPage{
 		setName('')
 	}
 	
-	const blurHandler = () => setFocused(false)
+	const blurHandler = (): void => setFocused(false)
 	const loginHandler = async () => {
 		const token = await getCredentials(formInput)
 		if(!(token instanceof Error)){

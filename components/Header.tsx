@@ -1,5 +1,18 @@
 import getNames from '../utils/getNames'
-
+type HeaderProps = { 
+	blurHandler: () => void,
+	focusHandler: () => void,
+	logOut: () => void,
+	loggedIn: boolean, 
+	paused: boolean,
+	setPaused: (x: boolean) => void,
+	setReset: () => void,
+	setStopped: () => void,
+	stopped: boolean,
+	token: string,
+	clearNameHandler: () => void,
+	newNameHandler: () => void,
+}
 export default function Header({ 
 	blurHandler,
 	focusHandler,
@@ -13,7 +26,7 @@ export default function Header({
 	token,
 	clearNameHandler,
 	newNameHandler,
-}){
+} : HeaderProps){
 	const eventHandlerMap = { 
 		login: () => console.log('login'),
 		logout: logOut,
