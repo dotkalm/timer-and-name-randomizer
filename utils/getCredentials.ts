@@ -1,9 +1,8 @@
-import { set } from './localStorage'
-import { GetCredentialsType } from '../types'
-export default async function getCredentials: GetCredentialsType(password){
+import { set as setItem } from './localStorage'
+
+export default async function getCredentials(password: string): Promise<Error | string>{
 	try{
-		const json = JSON.stringify({password})
-		const request = {
+		const f = await fetch('/api/login', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -11,36 +10,18 @@ export default async function getCredentials: GetCredentialsType(password){
 			},
 			mode: 'cors',
 			cache: 'default',
-			body: json 
-		}
-		const f = await fetch('/api/login', request)
+			body: JSON.stringify({password})
+		})
 		const response = await f.json()
 		if(response.errors){
 			throw new Error('no creds')
 		}
-		await set('credentials', response.data)
+		await setItem('credentials', response.data)
 		return response.data 
 	}catch(err){
-		return err
-	}
-}
-export const postRequest = async (url, body) => {
-	try{
-		const json = JSON.stringify({query: body})
-		const request = {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json',
-			},
-			mode: 'cors',
-			cache: 'default',
-			body: json
+		if(err instanceof Error){
+			return err 
 		}
-		const f = await fetch('/api/login', request)
-		const response = await f.json()
-		return response
-	}catch(err){
-		return err
+		return 'uncaught error'
 	}
 }

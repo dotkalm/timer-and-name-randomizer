@@ -8,11 +8,11 @@ import getNames from '../utils/getNames'
 import randomize from '../utils/randomizeNames'
 import styles from '../styles/Home.module.css'
 import { del as deleteStorage, get as getStorage } from '../utils/localStorage'
-import { FormHandlerType } from '../types'
+import { FormHandlerType, ClickHandlerType } from '../types'
 
 export default function Home(){
 	const [ focused, setFocused ] = useState(false)
-	const [ formInput, setFormInput ] = useState('')
+	const [ formInput, setFormInput ] = useState<string>('')
 	const [ hidden, setHidden ] = useState(true)
 	const [ loggedIn, setLoggedIn ] = useState(false)
 	const [ names, setNames ] = useState<string[][]>([[]])
@@ -76,7 +76,7 @@ export default function Home(){
 	}
 	
 	const blurHandler = (): void => setFocused(false)
-	const loginHandler = async () => {
+	const loginHandler: ClickHandlerType = async () => {
 		const token = await getCredentials(formInput)
 		if(!(token instanceof Error)){
 			setLoggedIn(true)

@@ -1,9 +1,8 @@
-import fetch from 'node-fetch'
 import { set as setItem } from './localStorage'
 
-export default async function getNames(token){
+export default async function getNames(token: string): Promise<Error | string[]>{
 	try{
-		const request = {
+		const f = await fetch('/api/names', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -12,8 +11,7 @@ export default async function getNames(token){
 			},
 			mode: 'cors',
 			cache: 'default',
-		}
-		const f = await fetch('/api/names', request)
+		})
 		const response = await f.json()
 		if(response.errors){
 			throw new Error('wrong token or no data')
@@ -22,27 +20,9 @@ export default async function getNames(token){
 		await setItem('names', names) 
 		return names 
 	}catch(err){
-		console.log(err)
-		return err
-	}
-}
-export const postRequest = async (url, body) => {
-	try{
-		const json = JSON.stringify({query: body})
-		const request = {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json',
-			},
-			mode: 'cors',
-			cache: 'default',
-			body: json
+		if(err instanceof Error){
+			return err 
 		}
-		const f = await fetch('/api/login', request)
-		const response = await f.json()
-		return response
-	}catch(err){
-		return err
+		return new Error('uncaught error')
 	}
 }
