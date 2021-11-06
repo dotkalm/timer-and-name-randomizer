@@ -21,7 +21,7 @@ export default function Home(){
 	const [ stopped, setStopped ] = useState(true)
 	const [ token, setToken ] = useState('')
 	const [ name, setName ] = useState('')
-	const nameGenerator = useRef(randomize([]))
+	const nameGenerator = useRef(randomize(['']))
 
 	useEffect(() => {
 		const keyPressHandler = ({key}: {key: string}): void => {
@@ -70,7 +70,7 @@ export default function Home(){
 		setLoggedIn(false)
 		deleteStorage('credentials')
 		deleteStorage('names')
-		nameGenerator.current = randomize([])
+		nameGenerator.current = randomize([''])
 		setNames([])
 		setName('')
 	}
@@ -81,7 +81,9 @@ export default function Home(){
 		if(!(token instanceof Error)){
 			setLoggedIn(true)
 			const fetchedNames = await getNames(token)
-			nameGenerator.current = randomize(fetchedNames)
+			if(!(fetchedNames instanceof Error)){
+				nameGenerator.current = randomize(fetchedNames)
+			}
 		}
 	}
 	const focusHandler = () => setFocused(true)
