@@ -9,7 +9,14 @@ export default function Login({
 }: LoginProps){
 	return(
 		<div className="log-in-form">
-			<input onFocus={focusHandler} onBlur={blurHandler} name="password" type="password" value={formInput} onChange={formHandler}/>
+			<input 
+				name="password" 
+				onBlur={blurHandler} 
+				onChange={formHandler}
+				onFocus={focusHandler} 
+				type="password" 
+				value={formInput} 
+			/>
 			<button  onFocus={focusHandler} onBlur={blurHandler} onClick={loginHandler} >get credentials</button>
 		</div>
 	)

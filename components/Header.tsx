@@ -1,5 +1,5 @@
 import getNames from '../utils/getNames'
-import { HeaderProps, ArrayOfFunctions } from '../types'
+import { HeaderProps } from '../types'
 export default function Header({ 
 	blurHandler,
 	clearNameHandler,
@@ -14,26 +14,7 @@ export default function Header({
 	stopped,
 	token,
 } : HeaderProps){
-	const keysArray = [ 
-		'clear name',
-		'close timer',
-		'logout',
-		'open timer',
-		'pause',
-		'pick name',
-		'reset',
-		'run',
-	]
-	const eventHandlerArray: ArrayOfFunctions[] = [ 
-		clearNameHandler,
-		setStopped,
-		setStopped,
-		newNameHandler,
-		logOut,
-		setPaused,
-		setReset,
-		setPaused,
-	]
+
 	const options = [
 		stopped ? 'open timer' : 'close timer',
 		paused ? 'run' : 'pause', 
@@ -56,14 +37,32 @@ export default function Header({
 			}
 			return s
 		}
-		const keyIndex: number = keysArray.indexOf(label)
 		return(
 			<button 
 				className={className()}
 				id={label} 
 				key={index} 
 				onBlur={(): void => blurHandler()}
-				onClick={() => eventHandlerArray[keyIndex]()}
+				onClick={(): void => {
+						switch (label) {
+							case 'clear name':
+								clearNameHandler()
+							case 'close timer':
+								setStopped(true)
+							case 'logout':
+								logOut()
+							case 'open timer':
+								setPaused(!paused)
+							case 'pause':
+								setPaused(!paused)
+							case 'pick name':
+								newNameHandler()
+							case 'reset':
+								setReset(true)
+							case 'run':
+								setStopped(false)
+						}
+				}}
 				onFocus={focusHandler}
 				role='button'
 				tabIndex={index+1}

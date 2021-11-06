@@ -1,7 +1,8 @@
+import { ChangeEvent } from 'react'
+
 export type BooleanHook = (x: boolean) => void
 export type VoidFunction = () => void 
 
-export type ArrayOfFunctions = (VoidFunction) | BooleanHook)
 
 export type HeaderProps = { 
 	blurHandler: VoidFunction,
@@ -24,10 +25,11 @@ export type TimerProps = {
 	reset: boolean, 
 	stopped: boolean, 
 }
+export type FormHandlerType = (x: ChangeEvent<HTMLInputElement>) => void 
 export type LoginProps = {
 	blurHandler: VoidFunction,
 	focusHandler: VoidFunction,
-	formHandler: VoidFunction,
+	formHandler: FormHandlerType,
 	formInput: string, 
 	loginHandler: VoidFunction, 
 	hidden: boolean, 

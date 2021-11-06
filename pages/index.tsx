@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import { useState, useEffect, useRef } from 'react'
 import Header from '../components/Header'
 import Login from '../components/Login'
@@ -9,6 +8,7 @@ import getNames from '../utils/getNames'
 import randomize from '../utils/randomizeNames'
 import styles from '../styles/Home.module.css'
 import { del as deleteStorage, get as getStorage } from '../utils/localStorage'
+import { FormHandlerType } from '../types'
 
 export default function Home(){
 	const [ focused, setFocused ] = useState(false)
@@ -85,7 +85,9 @@ export default function Home(){
 		}
 	}
 	const focusHandler = () => setFocused(true)
-	const formHandler = ({target: {value}} : any) => setFormInput(value)
+	const formHandler: FormHandlerType = ({target:{value}}) => {
+		setFormInput(value)
+	}
 	const clearNameHandler = () => setName('')
 	const newNameHandler = () => {
 		const [ first, ...rest ] = names
