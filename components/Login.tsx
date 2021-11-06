@@ -1,3 +1,4 @@
+import { LoginProps } from '../types'
 export default function Login({ 
 	blurHandler,
 	focusHandler,
@@ -5,7 +6,7 @@ export default function Login({
 	formInput, 
 	loginHandler, 
 	hidden, 
-}){
+}: LoginProps){
 	return(
 		<div className="log-in-form">
 			<input onFocus={focusHandler} onBlur={blurHandler} name="password" type="password" value={formInput} onChange={formHandler}/>

@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useState, useEffect, useRef } from 'react'
-import { VoidFunction } from '../types'
 import Header from '../components/Header'
 import Login from '../components/Login'
 import Timer from '../components/timer/timer'
@@ -11,7 +10,7 @@ import randomize from '../utils/randomizeNames'
 import styles from '../styles/Home.module.css'
 import { del as deleteStorage, get as getStorage } from '../utils/localStorage'
 
-export default function Home(): NextPage{
+export default function Home(){
 	const [ focused, setFocused ] = useState(false)
 	const [ formInput, setFormInput ] = useState('')
 	const [ hidden, setHidden ] = useState(true)

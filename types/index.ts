@@ -1,4 +1,4 @@
-export type BooleanHook = (x?: boolean) => void
+export type BooleanHook = (x: boolean) => void
 export type VoidFunction = () => void 
 
 export type ArrayOfFunctions = (VoidFunction) | BooleanHook)
@@ -23,4 +23,12 @@ export type TimerProps = {
 	paused: boolean, 
 	reset: boolean, 
 	stopped: boolean, 
+}
+export type LoginProps = {
+	blurHandler: VoidFunction,
+	focusHandler: VoidFunction,
+	formHandler: VoidFunction,
+	formInput: string, 
+	loginHandler: VoidFunction, 
+	hidden: boolean, 
 }
