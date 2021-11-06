@@ -1,6 +1,6 @@
 import { set } from './localStorage'
-
-export default async function getCredentials(password){
+import { GetCredentialsType } from '../types'
+export default async function getCredentials: GetCredentialsType(password){
 	try{
 		const json = JSON.stringify({password})
 		const request = {
