@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import { useState, useEffect, useRef } from 'react'
+import { VoidFunction } from '../types'
 import Header from '../components/Header'
 import Login from '../components/Login'
 import Timer from '../components/timer/timer'

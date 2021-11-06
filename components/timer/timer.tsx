@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import timerFunc from '../../shared/utils/timerFunc'
 import UseInterval from './useInterval'
+import timerFunc from '../../shared/utils/timerFunc'
+import { TimerProps } from '../../types'
 
 const startTime = '00:00:00'
-type TimerProps = { paused: boolean, reset: boolean, stopped: boolean, handleReset: () => void}
+
 export default function Timer({ paused, reset, stopped, handleReset }: TimerProps){
 	const [ timer, setTimer ] = useState(startTime)
 
