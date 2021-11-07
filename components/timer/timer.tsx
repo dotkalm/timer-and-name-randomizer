@@ -19,7 +19,7 @@ export default function Timer({ paused, reset, stopped, handleReset }: TimerProp
 			setTimer(startTime)
 			handleReset()
 		}
-	}, [ reset ])
+	}, [ reset, handleReset ])
 	UseInterval(callbackTimer, 1000)
 
 	const [ hours, minutes, seconds ] = timer.split(':')
