@@ -65,6 +65,12 @@ header{
 	margin-top: 5px;
 	transition: all 1s ease-in-out;
 }
+.logged-out{
+	grid-template-columns: repeat(1,20%);
+	justify-content: end;
+	justify-items: stretch;
+	transition: all 1s ease-in-out;
+}
 .stopped{
 	grid-template-columns: repeat(4,20%);
 	justify-content: end;

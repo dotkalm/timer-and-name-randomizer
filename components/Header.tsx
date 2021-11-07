@@ -24,6 +24,12 @@ export default function Header({
 		loggedIn ? 'logout' : 'login',
 	]
 	const filterPerState = ((e: string,i: number) => {
+		if(!loggedIn && e !== 'login'){
+			return false 
+		}
+		if(!loggedIn && e === 'login'){
+			return true
+		}
 		if((stopped) && (e === 'pause' || e === 'run' || e === 'reset')){
 			return false
 		}
@@ -42,26 +48,27 @@ export default function Header({
 				className={className()}
 				id={label} 
 				key={index} 
-				onBlur={(): void => blurHandler()}
+				onBlur={blurHandler}
 				onClick={(): void => {
-						switch (label) {
-							case 'clear name':
-								clearNameHandler()
-							case 'close timer':
-								setStopped(true)
-							case 'logout':
-								logOut()
-							case 'open timer':
-								setPaused(!paused)
-							case 'pause':
-								setPaused(!paused)
-							case 'pick name':
-								newNameHandler()
-							case 'reset':
-								setReset(true)
-							case 'run':
-								setStopped(false)
-						}
+					console.log(label, '<------ on click')
+					switch (label) {
+						case 'clear name':
+							clearNameHandler()
+						case 'close timer':
+							setStopped(true)
+						case 'logout':
+							logOut()
+						case 'open timer':
+							setStopped(false)
+						case 'pause':
+							setPaused(true)
+						case 'pick name':
+							newNameHandler()
+						case 'reset':
+							setReset(true)
+						case 'run':
+							setPaused(false)
+					}
 				}}
 				onFocus={focusHandler}
 				role='button'
@@ -71,8 +78,13 @@ export default function Header({
 			</button>
 		)
 	})
+	const className = () => {
+		if(!loggedIn) return 'logged-out'
+		if(stopped) return 'stopped'
+		return 'nav-header'
+	}
 	return(
-		<header className={stopped ? 'stopped' : 'nav-header'}>
+		<header className={className()}>
 			{ui}	
 		</header>
 	)

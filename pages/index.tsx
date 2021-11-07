@@ -25,9 +25,9 @@ export default function Home(){
 	useEffect(() => {
 		const keyPressHandler = ({key}: {key: string}): void => {
 			if(key === ' '){
-				setPaused(!paused)
+				//setPaused(!paused)
 			}else if(key === 'Backspace'){
-				setReset(true)
+				//setReset(true)
 			}else{
 				console.log('new name')
 			}
@@ -63,6 +63,7 @@ export default function Home(){
 	}
 	
 	const blurHandler = (): void => setFocused(false)
+
 	const loginHandler: ClickHandlerType = async () => {
 		const token = await getCredentials(formInput)
 		if(!(token instanceof Error)){
@@ -70,7 +71,10 @@ export default function Home(){
 			await getNames(token)
 		}
 	}
-	const focusHandler = () => setFocused(true)
+	const focusHandler = () => { 
+		console.log('focusHAndler')
+		setFocused(true)
+	} 
 	const formHandler: FormHandlerType = ({target:{value}}) => {
 		setFormInput(value)
 	}
