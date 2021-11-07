@@ -21,7 +21,6 @@ export default function Home(){
 	const [ stopped, setStopped ] = useState(true)
 	const [ token, setToken ] = useState('')
 	const [ name, setName ] = useState('')
-	const nameGenerator = useRef(randomize(['']))
 
 	useEffect(() => {
 		const keyPressHandler = ({key}: {key: string}): void => {
@@ -54,23 +53,11 @@ export default function Home(){
 		}
 	}, [ token, loggedIn, focused ])
 
-	useEffect(() => {
-		if(loggedIn){
-			const namesFromStorage = getStorage('names')
-			if(
-				!(namesFromStorage instanceof Error) && 
-				names.length !== namesFromStorage.length
-			){
-				nameGenerator.current = randomize(namesFromStorage)
-			}
-		}
-	},[ names, loggedIn ])
 	const logOut = () => {
 		setToken('')
 		setLoggedIn(false)
 		deleteStorage('credentials')
 		deleteStorage('names')
-		nameGenerator.current = randomize([''])
 		setNames([])
 		setName('')
 	}
@@ -80,10 +67,6 @@ export default function Home(){
 		const token = await getCredentials(formInput)
 		if(!(token instanceof Error)){
 			setLoggedIn(true)
-			const fetchedNames = await getNames(token)
-			if(!(fetchedNames instanceof Error)){
-				nameGenerator.current = randomize(fetchedNames)
-			}
 		}
 	}
 	const focusHandler = () => setFocused(true)
@@ -94,22 +77,18 @@ export default function Home(){
 	const newNameHandler = () => {
 		const [ first, ...rest ] = names
 		const namesFromStorage = getStorage('names')
+		let newName: string = randomize(namesFromStorage) 
 		if(first.length === namesFromStorage.length){
-			let newName: string = nameGenerator.current.next()?.value
-			while(newName === undefined){
-				newName = nameGenerator.current.next()?.value
-			}
 			setName(newName)
 			setNames([[ newName ], first, ...rest])
 		}else{
-			let newName = nameGenerator.current.next()?.value
+			newName = randomize(namesFromStorage) 
 			while(first.includes(newName)){
-				newName = nameGenerator.current.next()?.value
+				newName = randomize(namesFromStorage) 
 			}
 			setName(newName)
 			setNames([[ newName, ...first ], ...rest])
 		}
-
 	}
 	const handleReset = (): void => setReset(!reset)
   return (
