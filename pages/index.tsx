@@ -29,7 +29,6 @@ export default function Home(){
 			}else if(key === 'Backspace'){
 				//setReset(true)
 			}else{
-				console.log('new name')
 			}
 		}
 		if(!focused){
@@ -72,20 +71,17 @@ export default function Home(){
 		}
 	}
 	const focusHandler = () => { 
-		console.log('focusHAndler')
 		setFocused(true)
 	} 
 	const formHandler: FormHandlerType = ({target:{value}}) => {
 		setFormInput(value)
 	}
 	const clearNameHandler = () => {
-		console.log('clearNameHandler')
 		setName('')
 	}
 	const newNameHandler = () => {
 		const [ first, ...rest ] = names
 		const namesFromStorage = getStorage('names')
-		console.log(namesFromStorage)
 		let newName: string = randomize(namesFromStorage) 
 		if(!first || first.length === namesFromStorage.length){
 			setName(newName)

@@ -50,24 +50,31 @@ export default function Header({
 				key={index} 
 				onBlur={blurHandler}
 				onClick={(): void => {
-					console.log(label, '<------ on click')
 					switch (label) {
 						case 'clear name':
 							clearNameHandler()
+							return
 						case 'close timer':
 							setStopped(true)
+							return
 						case 'logout':
 							logOut()
+							return
 						case 'open timer':
 							setStopped(false)
+							return
 						case 'pause':
 							setPaused(true)
+							return
 						case 'pick name':
 							newNameHandler()
+							return
 						case 'reset':
 							setReset(true)
+							return
 						case 'run':
 							setPaused(false)
+							return
 					}
 				}}
 				onFocus={focusHandler}

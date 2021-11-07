@@ -26,7 +26,6 @@ export default function Timer({ paused, reset, stopped, handleReset }: TimerProp
 	const [ h1, h2 ] = hours.split('')
 	const [ m1, m2 ] = minutes.split('')
 	const [ s1, s2 ] = seconds.split('')
-	console.log('stopped', stopped)
 	return(
 		<section className={!stopped ? "timer" : "timer paused"}>
 			<div>{h1}</div>
