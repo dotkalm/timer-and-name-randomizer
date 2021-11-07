@@ -67,18 +67,23 @@ export default function Home(){
 		const token = await getCredentials(formInput)
 		if(!(token instanceof Error)){
 			setLoggedIn(true)
+			await getNames(token)
 		}
 	}
 	const focusHandler = () => setFocused(true)
 	const formHandler: FormHandlerType = ({target:{value}}) => {
 		setFormInput(value)
 	}
-	const clearNameHandler = () => setName('')
+	const clearNameHandler = () => {
+		console.log('clearNameHandler')
+		setName('')
+	}
 	const newNameHandler = () => {
 		const [ first, ...rest ] = names
 		const namesFromStorage = getStorage('names')
+		console.log(namesFromStorage)
 		let newName: string = randomize(namesFromStorage) 
-		if(first.length === namesFromStorage.length){
+		if(!first || first.length === namesFromStorage.length){
 			setName(newName)
 			setNames([[ newName ], first, ...rest])
 		}else{
