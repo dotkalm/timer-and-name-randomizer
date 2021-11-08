@@ -58,6 +58,7 @@ export default function Home(){
 		deleteStorage('credentials')
 		deleteStorage('names')
 		setNames([])
+		setStopped(true)
 		setName('')
 	}
 	
